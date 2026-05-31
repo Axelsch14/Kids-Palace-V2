@@ -42,42 +42,62 @@ const S = { maxW: { maxWidth: 1160, margin: '0 auto', padding: '0 24px' } };
 
 /* ── NAV ── */
 function Nav({ scrolled }) {
-  const go = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const [menuOpen, setMenuOpen] = useState(false);
+  const go = id => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMenuOpen(false); };
+  const links = [['espaces', '🎠 Le parc'], ['tarifs', '💰 Tarifs'], ['anniversaires', '🎂 Anniversaires'], ['horaires', '🕐 Horaires']];
+
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
-      background: scrolled ? 'rgba(255,253,247,0.97)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px)' : 'none',
-      borderBottom: scrolled ? '2px solid var(--yellow)' : 'none',
-      transition: 'all 0.35s ease',
-    }}>
-      <div style={{ ...S.maxW, display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 70 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <span style={{ fontSize: 30, animation: 'wiggle 2.5s ease-in-out infinite' }}>🎪</span>
-          <div>
-            <div style={{ fontFamily: 'var(--baloo)', fontSize: 20, fontWeight: 800, color: 'var(--orange)', lineHeight: 1 }}>Kids Palace</div>
-            <div style={{ fontSize: 10, color: 'var(--text-secondary)', letterSpacing: 1 }}>COURBEVOIE · 0 – 11 ANS</div>
+    <>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
+        background: scrolled || menuOpen ? 'rgba(255,253,247,0.97)' : 'transparent',
+        backdropFilter: scrolled || menuOpen ? 'blur(20px)' : 'none',
+        borderBottom: scrolled || menuOpen ? '2px solid var(--yellow)' : 'none',
+        transition: 'all 0.35s ease',
+      }}>
+        <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 66 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setMenuOpen(false); }}>
+            <span style={{ fontSize: 26, animation: 'wiggle 2.5s ease-in-out infinite' }}>🎪</span>
+            <div>
+              <div style={{ fontFamily: 'var(--baloo)', fontSize: 18, fontWeight: 800, color: 'var(--orange)', lineHeight: 1 }}>Kids Palace</div>
+              <div style={{ fontSize: 9, color: 'var(--text-secondary)', letterSpacing: 1 }}>COURBEVOIE · 0 – 11 ANS</div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <a href={CONFIG.phoneLink} style={{
+              background: 'var(--orange)', color: 'white', borderRadius: 24,
+              padding: '8px 16px', fontSize: 13, fontWeight: 700, textDecoration: 'none',
+              fontFamily: 'var(--baloo)',
+            }}>📞 Appeler</a>
+            <button onClick={() => setMenuOpen(o => !o)} style={{
+              background: menuOpen ? 'var(--yellow)' : 'rgba(255,107,53,0.1)',
+              border: 'none', borderRadius: 10, width: 42, height: 42,
+              fontSize: 18, cursor: 'pointer', transition: 'all 0.2s',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>{menuOpen ? '✕' : '☰'}</button>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          {[['espaces', '🎠 Le parc'], ['tarifs', '💰 Tarifs'], ['anniversaires', '🎂 Anniversaires'], ['horaires', '🕐 Horaires']].map(([id, label]) => (
-            <button key={id} onClick={() => go(id)} style={{
-              background: 'none', border: 'none', fontSize: 13, fontWeight: 500,
-              color: 'var(--text)', padding: '7px 14px', borderRadius: 24,
-              transition: 'all 0.2s',
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'var(--yellow)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >{label}</button>
-          ))}
-          <a href={CONFIG.phoneLink} style={{
-            background: 'var(--orange)', color: 'white', borderRadius: 28,
-            padding: '10px 22px', fontSize: 13, fontWeight: 700, textDecoration: 'none',
-            fontFamily: 'var(--baloo)', marginLeft: 10, animation: 'pulse 2s infinite',
-          }}>📞 Appeler</a>
-        </div>
-      </div>
-    </nav>
+
+        {menuOpen && (
+          <div style={{ background: 'rgba(255,253,247,0.98)', borderTop: '1px solid var(--border)', padding: '12px 20px 20px' }}>
+            {links.map(([id, label]) => (
+              <button key={id} onClick={() => go(id)} style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                background: 'none', border: 'none', fontSize: 16, fontWeight: 600,
+                color: 'var(--text)', padding: '14px 12px', borderRadius: 12,
+                borderBottom: '1px solid var(--border)', cursor: 'pointer',
+                fontFamily: 'var(--baloo)',
+              }}>{label}</button>
+            ))}
+            <a href={CONFIG.whatsapp} target="_blank" rel="noopener noreferrer" style={{
+              display: 'block', marginTop: 12, background: '#25D366', color: 'white',
+              borderRadius: 16, padding: '13px', fontSize: 15, fontWeight: 700,
+              textDecoration: 'none', fontFamily: 'var(--baloo)', textAlign: 'center',
+            }}>💬 Nous écrire sur WhatsApp</a>
+          </div>
+        )}
+      </nav>
+    </>
   );
 }
 
@@ -355,10 +375,11 @@ function Horaires() {
             <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 20, padding: '1.75rem', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div style={{ fontFamily: 'var(--baloo)', fontSize: 16, fontWeight: 700, color: 'var(--yellow)', marginBottom: 16 }}>📚 Période scolaire</div>
               {HORAIRES_SCOLAIRE.map(({ jour, h, open }) => (
-                <div key={jour} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 10, marginBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{jour}</span>
-                  <span style={{ fontFamily: 'var(--baloo)', fontSize: 14, fontWeight: 700, color: open ? 'var(--yellow)' : '#FF6B9D' }}>{h}</span>
-                </div>
+  <div key={jour} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.05)', gap: 8 }}>
+    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', flexShrink: 0 }}>{jour}</span>
+    <span style={{ fontFamily: 'var(--baloo)', fontSize: 14, fontWeight: 700, color: open ? 'var(--yellow)' : '#FF6B9D', whiteSpace: 'nowrap' }}>{h}</span>
+  </div>
+))}
               ))}
             </div>
             {/* Vacances */}
