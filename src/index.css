@@ -1,0 +1,33 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #FFD93D;
+  --orange: #FF6B35;
+  --orange-dark: #E55A25;
+  --pink: #FF6B9D;
+  --purple: #7C5CFF;
+  --blue: #4ECDC4;
+  --green: #6BCB77;
+  --white: #FFFFFF;
+  --off-white: #FFFDF7;
+  --light: #FFF8E7;
+  --dark: #1A1A2E;
+  --dark2: #16213E;
+  --text: #2D2D2D;
+  --text-secondary: #7A7A8C;
+  --border: #F0E8D0;
+  --baloo: 'Baloo 2', cursive;
+  --sans: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+button { font-family: var(--baloo); cursor: pointer; }
+::selection { background: var(--yellow); color: var(--dark); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 4px; }
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes wiggle { 0%,100%{transform:rotate(-4deg)} 50%{transform:rotate(4deg)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,0.4)} 50%{box-shadow:0 0 0 12px rgba(255,107,53,0)} }
