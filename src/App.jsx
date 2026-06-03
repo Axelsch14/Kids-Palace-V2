@@ -81,9 +81,11 @@ function Nav({ scrolled }) {
 /* ── HERO ── */
 function Hero() {
   const go = id => document.getElementById(id)?.scrollIntoView({ behavior:'smooth' });
-  const jour = new Date().getDay();
-  const joursOuverts = [0,3,5,6];
-  const isOpen = joursOuverts.includes(jour);
+  const now = new Date();
+const jour = now.getDay();
+const heure = now.getHours() + now.getMinutes() / 60;
+const joursOuverts = [0, 3, 5, 6];
+const isOpen = joursOuverts.includes(jour) && heure >= 10 && heure < 19;
   return (
     <section style={{ minHeight:'100vh', position:'relative', overflow:'hidden', display:'flex', alignItems:'center' }}>
       <div style={{ position:'absolute', inset:0, backgroundImage:'url(/photo1.jpeg)', backgroundSize:'cover', backgroundPosition:'center', filter:'brightness(0.35)' }} />
